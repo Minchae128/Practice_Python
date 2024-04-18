@@ -1,5 +1,12 @@
+# pip install playwright
+# playwright install
+# pip install pandas
+# pip install lxml
+# pip install html5lib
+
 # Playwright 라이브러리에서 sync_playwright 함수를 가져옵니다.
 from playwright.sync_api import sync_playwright
+import pandas as pd  # pandas 라이브러리를 가져옵니다.
 
 # Playwright를 사용하여 브라우저 조작을 시작합니다.
 with sync_playwright() as p:
@@ -18,14 +25,23 @@ with sync_playwright() as p:
     # 페이지의 타이틀을 출력합니다.
     print(page.title())
 
+    # 링크의 href 속성을 가져옵니다.
     link_url = page.get_attribute('//*[@id="shortcutArea"]/ul/li[6]/a', 'href')
-
     print(link_url)
     
+    # 가져온 링크로 이동합니다.
     page.goto(link_url)
 
-    # 사용자 입력을 기다립니다. (프로그램을 종료하지 않기 위함)
-    input('대기중>>>>>')
+    # 클릭할 요소의 XPath를 제대로 지정합니다.
+    page.click('//*[@id="menu"]/ul/li[4]/a')
+
+    # 문서의 src 속성을 가져옵니다.
+    doc_src = page.get_attribute('//*[@id="frame_ex1"]', 'src')
+    print(doc_src)
+
+    # URL을 올바르게 조합하여 데이터프레임을 읽어옵니다.
+    df = pd.read_html(link_url + doc_src, encoding='CP949')
+    print(df)
 
     # 브라우저를 닫습니다.
     browser.close()
