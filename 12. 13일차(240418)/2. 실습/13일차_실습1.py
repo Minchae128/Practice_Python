@@ -25,37 +25,37 @@ with sync_playwright() as p:
     # 페이지의 타이틀을 출력합니다.
     print(page.title())
 
-    # 링크의 href 속성을 가져옵니다.
+    # 네이버 홈페이지에서 '금융' 링크의 href 속성을 가져옵니다.
     link_url = page.get_attribute('//*[@id="shortcutArea"]/ul/li[6]/a', 'href')
     print(link_url)
     
-    # 가져온 링크로 이동합니다.
+    # 금융 페이지로 이동합니다.
     page.goto(link_url)
 
-    # 클릭할 요소의 XPath를 제대로 지정합니다.
+    # '환율 정보' 메뉴를 클릭합니다.
     page.click('//*[@id="menu"]/ul/li[4]/a')
 
-    # 문서의 src 속성을 가져옵니다.
+    # 환율 정보가 표시되는 프레임의 src 속성을 가져옵니다.
     doc_src = page.get_attribute('//*[@id="frame_ex1"]', 'src')
-    #print(doc_src)
-
 
    # URL을 올바르게 조합하여 HTML 문서를 가져옵니다.
     response = page.goto(link_url + doc_src)
     html_content = response.text()
 
-
     # HTML 문서를 데이터프레임으로 변환합니다.
     doc_df = pd.read_html(html_content, encoding='CP949')[0]
 
+    # 인덱스를 재설정하여 데이터프레임을 다시 생성합니다.
     doc_df_reset = doc_df.reset_index(drop=True)
 
+    # 컬럼의 다중 인덱스에서 첫 번째 레벨을 삭제합니다.
     doc_df_reset.columns = doc_df_reset.columns.droplevel()
 
     # 데이터프레임을 엑셀 파일로 저장합니다.
     doc_df_reset[['통화명', '매매기준율']].to_excel('환율정보.xlsx', sheet_name='컬럼두개저장실습', index=False)
 
-    input('대기중>>>>')
+    # 사용자 입력을 대기합니다.
+    input('작업 완료! 엔터 키를 누르면 종료됩니다.')
     
    # 브라우저를 닫습니다.
     browser.close()
