@@ -37,11 +37,17 @@ with sync_playwright() as p:
 
     # 문서의 src 속성을 가져옵니다.
     doc_src = page.get_attribute('//*[@id="frame_ex1"]', 'src')
-    print(doc_src)
+    #print(doc_src)
 
     # URL을 올바르게 조합하여 데이터프레임을 읽어옵니다.
-    df = pd.read_html(link_url + doc_src, encoding='CP949')
-    print(df)
+    docu_list = pd.read_html(link_url+doc_src, encoding="CP949")
 
-    # 브라우저를 닫습니다.
+    df = docu_list[0]
+
+    df.columns =  df.columns.droplevel(0)
+    print(df.info())
+
+    input('대기중>>>>')
+    
+   # 브라우저를 닫습니다.
     browser.close()
