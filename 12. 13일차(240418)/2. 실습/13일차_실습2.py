@@ -13,10 +13,6 @@
 from playwright.sync_api import sync_playwright
 import pandas as pd  # pandas 라이브러리를 가져옵니다.
 
-# Playwright 라이브러리에서 sync_playwright 함수를 가져옵니다.
-from playwright.sync_api import sync_playwright
-import pandas as pd  # pandas 라이브러리를 가져옵니다.
-
 # Playwright를 사용하여 브라우저 조작을 시작합니다.
 with sync_playwright() as p:
     
