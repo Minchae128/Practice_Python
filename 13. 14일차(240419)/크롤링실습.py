@@ -22,3 +22,32 @@ with sync_playwright() as p:
 
     page.click('//*[@id="dashmenu"]/div[2]/a/button')
 
+    wild_list = []
+    desxription_list = []
+    type_list = []
+    status = []
+    date_list = []
+
+    wild_list_elements = page.query_selector_all()
+
+        # 뉴스 제목을 추출합니다.
+    news_title_elements = page.query_selector_all('.news_tit')
+
+    # 뉴스 제목을 리스트에 저장합니다.
+    for title_element in news_title_elements:
+        news_titles.append(title_element.inner_text())
+
+page_num = 1
+while True:
+    page_num += 1
+    next_page = page.query_selector(f'xpath=//a[@class="page-numbers" and text()' = [text]])
+
+    if next_page:
+        with page.expect_navigation():
+            next_page.click()
+    else:
+        break
+
+    
+
+
