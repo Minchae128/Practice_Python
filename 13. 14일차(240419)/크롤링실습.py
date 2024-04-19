@@ -40,7 +40,7 @@ with sync_playwright() as p:
 page_num = 1
 while True:
     page_num += 1
-    next_page = page.query_selector(f'xpath=//a[@class="page-numbers" and text()' = [text]])
+    next_page = page.query_selector(f'xpath=//a[@class="page-numbers" and text() = "{page_num}"]')
 
     if next_page:
         with page.expect_navigation():
